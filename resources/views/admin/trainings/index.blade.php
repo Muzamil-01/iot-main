@@ -8,7 +8,7 @@
         <div class="row">
           <div class="col-lg-6">
             <div class="pagetitle">
-              <h1>Buildings</h1>
+              <h1>trainings</h1>
 
             </div>
           </div>

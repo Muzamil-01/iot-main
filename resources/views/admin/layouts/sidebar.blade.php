@@ -70,7 +70,7 @@
     <!-- End Profile Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-faq.html">
+      <a class="nav-link collapsed" href="{{route('items')}}">
         <i class="bi bi-plus"></i>
         <span>items</span>
       </a>
@@ -78,7 +78,7 @@
     <!-- End F.A.Q Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-contact.html">
+      <a class="nav-link collapsed" href="{{route('sensors')}}">
         <i class="bi bi-gear"></i>
         <span>Sensors</span>
       </a>
@@ -86,7 +86,7 @@
     <!-- End Contact Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-register.html">
+      <a class="nav-link collapsed" href="{{route('suppliers')}}">
         <i class="bi bi-cart3"></i>
         <span>Suppliers</span>
       </a>
@@ -94,7 +94,7 @@
     <!-- End Register Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-login.html">
+      <a class="nav-link collapsed" href="{{route('people')}}">
         <i class="bi bi-person"></i>
         <span>people</span>
       </a>
@@ -102,7 +102,7 @@
     <!-- End Login Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-error-404.html">
+      <a class="nav-link collapsed" href="{{route('trainings')}}">
         <i class="bi bi-book"></i>
         <span>Trainings</span>
       </a>
@@ -110,7 +110,7 @@
     <!-- End Error 404 Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="pages-blank.html">
+      <a class="nav-link collapsed" href="{{route('issues')}}">
         <i class="bi bi-exclamation-triangle"></i>
         <span>issues</span>
       </a>
