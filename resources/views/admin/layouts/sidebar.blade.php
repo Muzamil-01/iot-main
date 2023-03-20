@@ -62,7 +62,7 @@
     <li class="nav-heading">Pages</li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="users-profile.html">
+      <a class="nav-link collapsed" href="{{route('building')}}">
         <i class="bi bi-building-fill"></i>
         <span>Buildings</span>
       </a>

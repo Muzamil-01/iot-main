@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [App\Http\Controllers\AdminController::class, 'index']);
+Route::get('building', [App\Http\Controllers\BuildingController::class, 'index'])->name('building');
 
 Auth::routes();
 
