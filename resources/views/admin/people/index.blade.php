@@ -145,8 +145,8 @@
                     </div>
                   </div>
                   </div>
-                        <div class="col-4 ">
-                          <div class="card">
+                  <div class="col-4 ">
+                   <div class="card">
                     <div class="row">
                       <div class="col-lg-3 col-md-4 label ">Full Name</div>
                     </div>
