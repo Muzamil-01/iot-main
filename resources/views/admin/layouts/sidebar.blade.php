@@ -16,8 +16,8 @@
         data-bs-toggle="collapse"
         href="#"
       >
-        <span class="text-dark">Select Country</span
-        ><i class="bi bi-chevron-down ms-auto mb-3"></i>
+        <span class="text-dark">Select Country</span>
+        <i class="bi bi-chevron-down ms-auto mb-3"></i>
       </a>
 
       <ul
