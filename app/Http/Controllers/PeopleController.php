@@ -15,4 +15,5 @@ class PeopleController extends Controller
     {
         return view('admin.people.index');
     }
+
 }

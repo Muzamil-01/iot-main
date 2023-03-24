@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AllPeople;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,3 +26,13 @@ Route::get('issues', [App\Http\Controllers\IssueController::class, 'index'])->na
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+// All People Controller Handling
+Route::get('allPeoples', [App\Http\Controllers\AllPeople::class, 'index'])->name('allPeoples');
+Route::post('/store', [App\Http\Controllers\AllPeople::class, 'store'])->name('store');
+Route::get('/fetchAll', [App\Http\Controllers\AllPeople::class, 'fetchAll'])->name('fetchAll');
+Route::delete('/delete', [App\Http\Controllers\AllPeople::class, 'delete'])->name('delete');
+Route::get('/edit', [App\Http\Controllers\AllPeople::class, 'edit'])->name('edit');
+Route::get('/employees/edit/{id}', [App\Http\Controllers\AllPeople::class, 'edit'])->name('edit_employee');
+Route::post('/update', [App\Http\Controllers\AllPeople::class, 'update'])->name('update');
+Route::get('/add', [App\Http\Controllers\AllPeople::class, 'add'])->name('add');

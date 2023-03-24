@@ -94,11 +94,34 @@
     <!-- End Register Page Nav -->
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="{{route('people')}}">
-        <i class="bi bi-person"></i>
-        <span>people</span>
+      <a
+        class="nav-link collapsed"
+        data-bs-target="#people"
+        data-bs-toggle="collapse"
+        href="#"
+      >
+      <i class="bi bi-person"></i>
+
+        <span >People</span
+        ><i class="bi bi-chevron-down ms-auto mb-3"></i>
       </a>
+
+      <ul
+        id="people"
+        class="nav-content collapse"
+        data-bs-parent="#sidebar-nav"
+      >
+        <li>
+          <a href="{{route('people')}}">
+            <i class="bi bi-circle"></i><span>People</span>
+          </a>
+          <a href="{{route('allPeoples')}}">
+            <i class="bi bi-circle"></i><span>All Peoples</span>
+          </a>
+        </li>
+      </ul>
     </li>
+    
     <!-- End Login Page Nav -->
 
     <li class="nav-item">
