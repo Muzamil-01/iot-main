@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\AllPeople;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,12 +26,13 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// All People Controller Handling
-Route::get('allPeoples', [App\Http\Controllers\AllPeople::class, 'index'])->name('allPeoples');
-Route::post('/store', [App\Http\Controllers\AllPeople::class, 'store'])->name('store');
-Route::get('/fetchAll', [App\Http\Controllers\AllPeople::class, 'fetchAll'])->name('fetchAll');
-Route::delete('/delete', [App\Http\Controllers\AllPeople::class, 'delete'])->name('delete');
-Route::get('/edit', [App\Http\Controllers\AllPeople::class, 'edit'])->name('edit');
-Route::get('/employees/edit/{id}', [App\Http\Controllers\AllPeople::class, 'edit'])->name('edit_employee');
-Route::post('/update', [App\Http\Controllers\AllPeople::class, 'update'])->name('update');
-Route::get('/add', [App\Http\Controllers\AllPeople::class, 'add'])->name('add');
+//people handling
+
+Route::get('peoples', [App\Http\Controllers\PeopleController::class, 'index'])->name('peoples.index');
+Route::get('peoples/fetch', [App\Http\Controllers\PeopleController::class, 'fetch'])->name('peoples.fetch');
+Route::delete('peoples/{id}/delete', [App\Http\Controllers\PeopleController::class, 'delete'])->name('peoples.delete');
+Route::get('peoples/{id}/edit/', [App\Http\Controllers\PeopleController::class, 'edit'])->name('peoples.edit');
+Route::post('peoples/{id}/update', [App\Http\Controllers\PeopleController::class, 'update'])->name('peoples.update');
+Route::get('peoples/add', [App\Http\Controllers\PeopleController::class, 'create'])->name('peoples.create');
+Route::post('peoples/store', [App\Http\Controllers\PeopleController::class, 'store'])->name('peoples.store');
+Route::get('peoples/{id}/profile', [App\Http\Controllers\PeopleController::class, 'show'])->name('peoples.show');
