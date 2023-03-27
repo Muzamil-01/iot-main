@@ -61,7 +61,7 @@ class PermissionsController extends Controller
     {   
         $permission = DB::table('permissions')->where('id', $id)->get();
 
-               return view('admin.permissions.edit',compact('permission'));
+        return view('admin.permissions.edit',compact('permission'));
 
     }
 

@@ -1,10 +1,11 @@
 
 @extends('admin.layouts.app')
-
 @section('main-section')
-<main id="main" class="main">
-    
 
+    
+<div class="container">
+        <div class="row ">
+            <div class="col-lg-12">
     <div class="bg-light p-4 rounded">
         <h2>Permissions</h2>
         <div class="lead">
@@ -48,5 +49,7 @@
         </table>
 
     </div>
-</main>
+            </div>
+        </div>
+</div>
 @endsection

@@ -70,70 +70,7 @@
     <!-- Vendor JS Files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
-<<<<<<< HEAD
-    //   edit ajax 
-    $(document).on('submit',"#edit_form",function(e) {
-    e.preventDefault();
-    const fd = new FormData(this);
-    var url = $(this).attr('action');
-    $("button[type='submit']").text('Updating...');
-    $.ajax({
-        url: url,
-        method: 'post',
-        data: fd,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: 'json',
-        success: function(response) {
-        if (response.status == 200) {
-            
-            Swal.fire(
-            'Updated!',
-            response.message,
-            'success'
-            )
-            // fetchAllEmployees();
-        }else{
-            
-        }
-        // $("#edit_employee_btn").text('Update Employee');
-        // $("#edit_employee_form")[0].reset();
-        // $("#editEmployeeModal").modal('hide');
-        }
-    });
-    });
-      
-    //   add ajax
-    // $(document).on('submit',"#add_form",function(e) {
-    //     e.preventDefault();
-    //     const fd = new FormData(this);
-    //     var url = $(this).attr('action');
-    //     $("button[type='submit']").text('Adding...');
-    //     $.ajax({
-    //       url: url,
-    //       method: 'post',
-    //       data: fd,
-    //       cache: false,
-    //       contentType: false,
-    //       processData: false,
-    //       dataType: 'json',
-    //       success: function(response) {
-    //         if (response.status == 200) {
-    //           Swal.fire(
-    //             'Added!',
-    //             response.message,
-    //             'success'
-    //           )
-    //           fetchAllEmployees();
-    //         }
-    //         $("#add_employee_btn").text('Add Employee');
-    //         $("#add_employee_form")[0].reset();
-    //         $("#addEmployeeModal").modal('hide');
-    //       }
-    //     });
-    //   });
-=======
+    
     <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
@@ -273,7 +210,6 @@
             }
         @endif
     </script>
->>>>>>> 654c7da2e303332705681b686b68cdcbca47570a
 
 
 </body>

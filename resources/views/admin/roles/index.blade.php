@@ -1,9 +1,8 @@
 @extends('admin.layouts.app')
 
 @section('main-section')
-<main id="main" class="main">
-   
 
+   
 <div class="bg-light p-4 rounded">
         <h1>Roles</h1>
         <div class="lead">
