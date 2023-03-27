@@ -208,6 +208,17 @@
                 });
             }
         @endif
+        var i = 0;
+        $("#addmorestep").on("click", function() {
+            $("#step").append(`
+                            <div class="drop-zone step-image2">
+                                <span class="drop-zone__prompt">Drop file here or click to upload</span>
+                                <input type="file" name="inputs[` + i + `][avatar]" class="drop-zone__input">
+                            </div>
+
+                            <textarea name="inputs[` + i + `][description]" id="" cols="30" rows="2" class="form-control"></textarea>                
+        `)
+        });
     </script>
 
 

@@ -1315,3 +1315,19 @@ h6 {
     font-size: 14px;
     text-align: center;
 }
+.training-label-text {
+    color: rgb(126, 126, 126);
+    font-size: 13px !important;
+}
+.step-image {
+    width: 180px !important;
+    height: 100px !important;
+}
+.step-image2 {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    border: 2px dashed blue;
+    border-radius: 10px;
+    width: 180px !important;
+    height: 100px !important;
+}
