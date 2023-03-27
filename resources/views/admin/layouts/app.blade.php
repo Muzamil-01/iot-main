@@ -290,34 +290,34 @@
     });
       
     //   add ajax
-    $(document).on('submit',"#add_form",function(e) {
-        e.preventDefault();
-        const fd = new FormData(this);
-        var url = $(this).attr('action');
-        $("button[type='submit']").text('Adding...');
-        $.ajax({
-          url: url,
-          method: 'post',
-          data: fd,
-          cache: false,
-          contentType: false,
-          processData: false,
-          dataType: 'json',
-          success: function(response) {
-            if (response.status == 200) {
-              Swal.fire(
-                'Added!',
-                response.message,
-                'success'
-              )
-              fetchAllEmployees();
-            }
-            $("#add_employee_btn").text('Add Employee');
-            $("#add_employee_form")[0].reset();
-            $("#addEmployeeModal").modal('hide');
-          }
-        });
-      });
+    // $(document).on('submit',"#add_form",function(e) {
+    //     e.preventDefault();
+    //     const fd = new FormData(this);
+    //     var url = $(this).attr('action');
+    //     $("button[type='submit']").text('Adding...');
+    //     $.ajax({
+    //       url: url,
+    //       method: 'post',
+    //       data: fd,
+    //       cache: false,
+    //       contentType: false,
+    //       processData: false,
+    //       dataType: 'json',
+    //       success: function(response) {
+    //         if (response.status == 200) {
+    //           Swal.fire(
+    //             'Added!',
+    //             response.message,
+    //             'success'
+    //           )
+    //           fetchAllEmployees();
+    //         }
+    //         $("#add_employee_btn").text('Add Employee');
+    //         $("#add_employee_form")[0].reset();
+    //         $("#addEmployeeModal").modal('hide');
+    //       }
+    //     });
+    //   });
 
 
 

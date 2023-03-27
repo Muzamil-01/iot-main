@@ -78,6 +78,21 @@
     <!-- End F.A.Q Page Nav -->
 
     <li class="nav-item">
+      <a class="nav-link collapsed" href="{{route('roles')}}">
+        <i class="bi bi-gear"></i>
+        <span>Roles</span>
+      </a>
+    </li>
+
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{route('permissions')}}">
+        <i class="bi bi-gear"></i>
+        <span>Permissions</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
       <a class="nav-link collapsed" href="{{route('sensors')}}">
         <i class="bi bi-gear"></i>
         <span>Sensors</span>
@@ -130,6 +145,8 @@
         <span>Trainings</span>
       </a>
     </li>
+
+   
     <!-- End Error 404 Page Nav -->
 
     <li class="nav-item">

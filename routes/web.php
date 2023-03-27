@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AllPeople;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\PermissionsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +29,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// All People Controller Handling
+// All Users Controller Handling
 Route::get('allPeoples', [App\Http\Controllers\AllPeople::class, 'index'])->name('allPeoples');
 Route::post('/store', [App\Http\Controllers\AllPeople::class, 'store'])->name('store');
 Route::get('/fetchAll', [App\Http\Controllers\AllPeople::class, 'fetchAll'])->name('fetchAll');
@@ -36,3 +38,25 @@ Route::get('/edit', [App\Http\Controllers\AllPeople::class, 'edit'])->name('edit
 Route::get('/employees/edit/{id}', [App\Http\Controllers\AllPeople::class, 'edit'])->name('edit_employee');
 Route::post('/update', [App\Http\Controllers\AllPeople::class, 'update'])->name('update');
 Route::get('/add', [App\Http\Controllers\AllPeople::class, 'add'])->name('add');
+
+
+Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('roles');
+Route::get('/roles/create', [App\Http\Controllers\RolesController::class, 'create'])->name('roles_create');
+Route::get('/roles/edit/{id}', [App\Http\Controllers\RolesController::class, 'edit'])->name('roles.edit');
+Route::get('/roles/store', [App\Http\Controllers\RolesController::class, 'store'])->name('roles.store');
+Route::get('/roles/update', [App\Http\Controllers\RolesController::class, 'update'])->name('roles.update');
+
+
+
+
+Route::get('/permissions', [App\Http\Controllers\PermissionsController::class, 'index'])->name('permissions');
+Route::get('/permissions/create', [App\Http\Controllers\PermissionsController::class, 'create'])->name('permissions.create');
+Route::get('/permissions/edit/{id}', [App\Http\Controllers\PermissionsController::class, 'edit'])->name('permissions.edit');
+Route::get('/permissions/store', [App\Http\Controllers\PermissionsController::class, 'store'])->name('permissions.store');
+Route::get('/permissions/update', [App\Http\Controllers\PermissionsController::class, 'update'])->name('permissions.update');
+
+
+
+
+// Route::resource('roles',[App\Http\Controllers\RolesController::class]);
+// Route::resource('permissions',[App\Http\Controllers\PermissionsController::class]);
