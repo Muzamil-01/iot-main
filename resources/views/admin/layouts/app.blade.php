@@ -70,70 +70,7 @@
     <!-- Vendor JS Files -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
-<<<<<<< HEAD
-    //   edit ajax 
-    $(document).on('submit',"#edit_form",function(e) {
-    e.preventDefault();
-    const fd = new FormData(this);
-    var url = $(this).attr('action');
-    $("button[type='submit']").text('Updating...');
-    $.ajax({
-        url: url,
-        method: 'post',
-        data: fd,
-        cache: false,
-        contentType: false,
-        processData: false,
-        dataType: 'json',
-        success: function(response) {
-        if (response.status == 200) {
-            
-            Swal.fire(
-            'Updated!',
-            response.message,
-            'success'
-            )
-            // fetchAllEmployees();
-        }else{
-            
-        }
-        // $("#edit_employee_btn").text('Update Employee');
-        // $("#edit_employee_form")[0].reset();
-        // $("#editEmployeeModal").modal('hide');
-        }
-    });
-    });
-      
-    //   add ajax
-    // $(document).on('submit',"#add_form",function(e) {
-    //     e.preventDefault();
-    //     const fd = new FormData(this);
-    //     var url = $(this).attr('action');
-    //     $("button[type='submit']").text('Adding...');
-    //     $.ajax({
-    //       url: url,
-    //       method: 'post',
-    //       data: fd,
-    //       cache: false,
-    //       contentType: false,
-    //       processData: false,
-    //       dataType: 'json',
-    //       success: function(response) {
-    //         if (response.status == 200) {
-    //           Swal.fire(
-    //             'Added!',
-    //             response.message,
-    //             'success'
-    //           )
-    //           fetchAllEmployees();
-    //         }
-    //         $("#add_employee_btn").text('Add Employee');
-    //         $("#add_employee_form")[0].reset();
-    //         $("#addEmployeeModal").modal('hide');
-    //       }
-    //     });
-    //   });
-=======
+
     <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
@@ -273,18 +210,35 @@
             }
         @endif
         var i = 0;
+        var step = 1;
         $("#addmorestep").on("click", function() {
-            $("#step").append(`
-                            <div class="drop-zone step-image2">
-                                <span class="drop-zone__prompt">Drop file here or click to upload</span>
-                                <input type="file" name="inputs[` + i + `][avatar]" class="drop-zone__input">
-                            </div>
+            ++step;
+            ++i;
+            var newStep = $(`
+        <div class="training-bulk" style="display:none;">
+            <h1 class="card-title">Step ` + step + ` </h1>
+            <div class="drop-zone step-image2">
+                <span class="drop-zone__prompt">Drop file here or click to upload</span>
+                <input type="file" name="inputs[` + i + `][avatar]" class="drop-zone__input">
+            </div>
+            <textarea name="inputs[` + i + `][description]" id="" cols="30" rows="2" class="form-control"></textarea>      
+            <div class="row">
+                <div class="offset-8 col-2 mt-2">
+                    <button class="btn btn-sm btn-danger add-btn2" id="RemoveBtn">Remove</button>          
+                </div>
+            </div>
+        </div>
+    `);
+            $("#step").append(newStep);
+            newStep.fadeIn();
+        });
 
-                            <textarea name="inputs[` + i + `][description]" id="" cols="30" rows="2" class="form-control"></textarea>                
-        `)
+        $(document).on("click", "#RemoveBtn", function() {
+            $(this).parents(".training-bulk").fadeOut(function() {
+                $(this).remove();
+            });
         });
     </script>
->>>>>>> 654c7da2e303332705681b686b68cdcbca47570a
 
 
 </body>

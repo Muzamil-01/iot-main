@@ -5,18 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Training extends Model
+class Department extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'estimated_time',
+        'dep_name',
         'description',
-        'department_id',
     ];
-    public function steps()
-    {
-        return $this->hasMany(TrainingSteps::class);
-    }
 }

@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
-class 
+class
 RolesController extends Controller
 {
     /**
@@ -19,21 +19,20 @@ RolesController extends Controller
      */
     function __construct()
     {
-
     }
-    
+
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {   
-        $roles = Role::orderBy('id','DESC')->paginate(5);
-        return view('admin.roles.index',compact('roles'))
+    {
+        $roles = Role::orderBy('id', 'DESC')->paginate(5);
+        return view('admin.roles.index', compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -44,8 +43,8 @@ RolesController extends Controller
         $permissions = Permission::get();
         return view('admin.roles.create', compact('permissions'));
     }
-    
-    
+
+
     /**
      * Store a newly created resource in storage.
      *
@@ -58,12 +57,12 @@ RolesController extends Controller
         //     'name' => 'required|unique:roles,name',
         //     'permission' => 'required',
         // ]);
-    
+
         $role = Role::create(['name' => $request->get('name')]);
         $role->syncPermissions($request->get('permission'));
-    
+
         return redirect()->route('roles')
-                        ->with('success','Role created successfully');
+            ->with('success', 'Role created successfully');
     }
 
     /**
@@ -76,10 +75,10 @@ RolesController extends Controller
     {
         $role = $role;
         $rolePermissions = $role->permissions;
-    
+
         return view('admin.roles.show', compact('role', 'rolePermissions'));
     }
-    
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -91,10 +90,10 @@ RolesController extends Controller
         $role = $role;
         $rolePermissions = $role->permissions->pluck('name')->toArray();
         $permissions = Permission::get();
-    
+
         return view('admin.roles.edit', compact('role', 'rolePermissions', 'permissions'));
     }
-    
+
     /**
      * Update the specified resource in storage.
      *
@@ -108,13 +107,13 @@ RolesController extends Controller
             'name' => 'required',
             'permission' => 'required',
         ]);
-        
+
         $role->update($request->only('name'));
-    
+
         $role->syncPermissions($request->get('permission'));
-    
+
         return redirect()->route('admin.roles.index')
-                        ->with('success','Role updated successfully');
+            ->with('success', 'Role updated successfully');
     }
 
     /**
@@ -128,6 +127,6 @@ RolesController extends Controller
         $role->delete();
 
         return redirect()->route('admin.roles.index')
-                        ->with('success','Role deleted successfully');
+            ->with('success', 'Role deleted successfully');
     }
 }

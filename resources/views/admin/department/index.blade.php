@@ -5,11 +5,11 @@
             <div class="col-lg-12">
                 <div class="card shadow">
                     <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h3 class="card-title text-dark">Manage Trainings</h3>
+                        <h3 class="card-title text-dark">Manage Departments</h3>
                         <div class="row">
                             <div class="col-12">
-                                <a href="{{ route('trainings.create') }}" class="btn btn-primary float-right add-btn"><i
-                                        class="bi-plus-circle"></i> Add Trainings</a>
+                                <a href="{{ route('departments.create') }}" class="btn btn-primary float-right add-btn"><i
+                                        class="bi-plus-circle"></i> Add Department</a>
                             </div>
                         </div>
                     </div>
