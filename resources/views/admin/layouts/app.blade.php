@@ -142,12 +142,9 @@
                                 response.message,
                                 'success'
                             )
-                            fetchAllEmployees();
+                            $("button[type='submit']").text('Save Data');
+                            $("#add_form")[0].reset();
                         }
-                        $("button[type='submit']").text('Add');
-
-                        $("#add_form")[0].reset();
-                        // $("#addEmployeeModal").modal('hide');
                     }
                 });
             });
@@ -214,17 +211,22 @@
         $("#addmorestep").on("click", function() {
             ++step;
             ++i;
-            var newStep = $(`
+            var newStep = $(`           
         <div class="training-bulk" style="display:none;">
             <h1 class="card-title">Step ` + step + ` </h1>
+            <label for="step" class="training-label-text">Name of this step</label>
+                                <input type="text" class="form-control" name="step_name[]">
+            <label for="step" class="training-label-text">Step-numbers</label>
+
+                                <input type="text" class="form-control" name="step_num[]">
             <div class="drop-zone step-image2">
                 <span class="drop-zone__prompt">Drop file here or click to upload</span>
-                <input type="file" name="inputs[` + i + `][avatar]" class="drop-zone__input">
-            </div>
-            <textarea name="inputs[` + i + `][description]" id="" cols="30" rows="2" class="form-control"></textarea>      
+                </div>  
+                <input type="file" name="media[]" class="" multiple>
+            <textarea name="description[]" id="" cols="30" rows="2" class="form-control"></textarea>      
             <div class="row">
                 <div class="offset-8 col-2 mt-2">
-                    <button class="btn btn-sm btn-danger add-btn2" id="RemoveBtn">Remove</button>          
+                    <button type="button" class="btn btn-sm btn-danger add-btn2" id="RemoveBtn"><i class="bi bi-cloud-minus"></i> Remove</button>          
                 </div>
             </div>
         </div>

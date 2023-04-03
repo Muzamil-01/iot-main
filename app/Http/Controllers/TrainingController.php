@@ -77,20 +77,99 @@ class TrainingController extends Controller
   // }
 
 
+  //   public function store(Request $request)
+  //   {
+  //     $image_name = $request->file('media');
+  //     $FileName = time() . '.' . $image_name->getClientOriginalExtension();
+  //     // foreach ($variable as $key => $value) {
+
+  //     // }
+  //     $image_name->storeAs('public/images', $FileName);
+
+  //     $empData = ['name' => $request->name, 'estimated_time' => $request->estimated_time, 'department_id' => $request->department];
+  //     $empData2 = ['step_num' => $request->step_num, 'step_name' => $request->step_name, 'media' => $FileName, 'description' =>  $request->description];
+  //     $training =  Training::create($empData);
+  //     $empData2['training_id'] = $training->id;
+  //     TrainingSteps::create($empData2);
+  //     return response()->json([
+  //       'status' => 200,
+  //     ]);
+  //   }
+  // }
   public function store(Request $request)
   {
-    // print_r($request->department);
 
-    $file = $request->file('media');
-    $fileName = time() . '.' . $file->getClientOriginalExtension();
-    $file->storeAs('public/images', $fileName);
-    $empData = ['name' => $request->name, 'estimated_time' => $request->estimated_time, 'department_id' => $request->department];
-    $empData2 = ['step_num' => $request->step_num, 'step_name' => $request->step_name, 'media' => $fileName, 'description' =>  $request->description];
-    $training =  Training::create($empData);
-    $empData2['training_id'] = $training->id;
-    TrainingSteps::create($empData2);
+    if ($request->hasFile('media')) {
+      $fileNames = [];
+      foreach ($request->file('media') as $file) {
+        $fileName = time() . '_' . $file->getClientOriginalName();
+        $file->storeAs('public/images', $fileName);
+        $fileNames[] = $fileName;
+      }
+    }
+    $empData = [
+      'name' => $request->name,
+      'estimated_time' => $request->estimated_time,
+      'department_id' => $request->department
+    ];
+    $training = Training::create($empData);
+
+    $step_names = $request->input('step_name');
+    $step_nums = $request->input('step_num');
+    $descriptions = $request->input('description');
+
+    // Loop through the input arrays and save the step records
+    for ($i = 0; $i < count($step_names); $i++) {
+      $empData2 = [
+        'step_num' => $step_nums[$i],
+        'step_name' => $step_names[$i],
+        'media' => $fileNames[$i],
+        'description' => $descriptions[$i],
+        'training_id' => $training->id
+      ];
+      TrainingSteps::create($empData2);
+    }
+
     return response()->json([
       'status' => 200,
     ]);
   }
+  // public function store(Request $request)
+  // {
+
+  //   if ($request->hasFile('media')) {
+  //     $fileNames = [];
+  //     foreach ($request->file('media') as $file) {
+  //       $fileName = time() . '_' . $file->getClientOriginalName();
+  //       $file->storeAs('public/images', $fileName);
+  //       $fileNames[] = $fileName;
+  //     }
+  //   }
+  //   $empData = [
+  //     'name' => $request->name,
+  //     'estimated_time' => $request->estimated_time,
+  //     'department_id' => $request->department
+  //   ];
+  //   $training = Training::create($empData);
+
+  //   $step_names = $request->input('step_name');
+  //   $step_nums = $request->input('step_num');
+  //   $descriptions = $request->input('description');
+
+  //   // Loop through the input arrays and save the step records
+  //   for ($i = 0; $i < count($step_names); $i++) {
+  //     $empData2 = [
+  //       'step_num' => $step_nums[$i],
+  //       'step_name' => $step_names[$i],
+  //       'media' => $fileNames[$i], // Fix typo: should be $fileNames, not $fileName
+  //       'description' => $descriptions[$i],
+  //       'training_id' => $training->id
+  //     ];
+  //     TrainingSteps::create($empData2);
+  //   }
+
+  //   return response()->json([
+  //     'status' => 200,
+  //   ]);
+  // }
 }

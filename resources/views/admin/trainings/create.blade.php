@@ -10,9 +10,7 @@
                         </div>
                         <div class=" col-lg-3 col-5">
                             <button type="submit" id="add_btn" class="btn btn-dark   add-btn">Save Data</button>
-
                         </div>
-
                     </div>
                     @csrf
                     <div class="card shadow">
@@ -41,34 +39,37 @@
                         <div class="row">
                             <div class="col-3 " style="border-right:1px solid rgb(193, 193, 193) ">
                                 <p class="training-label-text ">Training steps</p>
-                                <img src="storage/images/step.jpg" class="step-image" alt="" width="100px">
+                                <img src="{{ asset('storage/images/step.jpg') }}" class="step-image" alt=""
+                                    width="100px">
                                 <p class="training-label-text">Step 1</p>
-                                <img src="storage/images/step.jpg" class="step-image" alt="" width="100px">
+                                <img src="{{ asset('storage/images/step.jpg') }}" class="step-image" alt=""
+                                    width="100px">
                                 <p class="training-label-text">Step 2</p>
                             </div>
                             <div class="col-9" id="step">
-                                <h2 class="card-title">Step 3</h2>
+                                <h2 class="card-title">Step 1</h2>
                                 <label for="step" class="training-label-text">Name of this step</label>
-                                <input type="text" class="form-control" name="step_name">
-                                <input type="text" class="form-control" name="step_num">
+                                <input type="text" class="form-control" name="step_name[]">
+                                <label for="step" class="training-label-text">Step-Numbers</label>
+                                <input type="text" class="form-control" name="step_num[]">
                                 <div class="drop-zone step-image2">
                                     <span class="drop-zone__prompt">Drop file here or click to upload</span>
-                                    <input type="file" name="media" class="drop-zone__input">
+                                    <input type="file" name="media[]" class="drop-zone__input">
                                 </div>
-                                <textarea id="" cols="30" rows="2" class="form-control" name="description"></textarea>
+                                <textarea id="" cols="30" rows="2" class="form-control" name="description[]"></textarea>
                                 <div class="row">
                                     <div class="col-3 offset-8">
-                                        <button id="addmorestep" class="add-btn btn btn-primary btn-sm mt-2">Add
+                                        <button type="button" id="addmorestep"
+                                            class="styled-btn btn btn-primary btn-sm mt-2"> <i
+                                                class="bi bi-plus-circle"></i> Add
+
                                             More</button>
                                     </div>
                                 </div>
                 </form>
             </div>
-
-
         </div>
     </div>
-
     </div>
     </div>
     </div>

@@ -78,7 +78,8 @@ Route::get('departments/{id}/edit/', [App\Http\Controllers\DepartmentController:
 Route::post('departments/{id}/update', [App\Http\Controllers\DepartmentController::class, 'update'])->name('departments.update');
 Route::get('departments/add', [App\Http\Controllers\DepartmentController::class, 'create'])->name('departments.create');
 Route::post('departments/store', [App\Http\Controllers\DepartmentController::class, 'store'])->name('departments.store');
-Route::get('departments/{id}/profile', [App\Http\Controllers\DepartmentController::class, 'show'])->name('departments.show');
+Route::get('departments/{id}/show', [App\Http\Controllers\DepartmentController::class, 'show'])->name('departments.show');
+Route::get('/departments/fetch_training/{id}', [App\Http\Controllers\DepartmentController::class, 'fetch_training'])->name('departments.fetch_training');
 
 //Training handling
 Route::get('trainings', [App\Http\Controllers\TrainingController::class, 'index'])->name('trainings.index');
