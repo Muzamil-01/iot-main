@@ -40,6 +40,7 @@ Route::post('/update', [App\Http\Controllers\AllPeople::class, 'update'])->name(
 Route::get('/add', [App\Http\Controllers\AllPeople::class, 'add'])->name('add');
 
 
+
 Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('roles');
 Route::get('/roles/create', [App\Http\Controllers\RolesController::class, 'create'])->name('roles_create');
 Route::get('/roles/edit/{id}', [App\Http\Controllers\RolesController::class, 'edit'])->name('roles.edit');
@@ -89,3 +90,5 @@ Route::get('trainings/{id}/edit/', [App\Http\Controllers\TrainingController::cla
 Route::post('trainings/{id}/update', [App\Http\Controllers\TrainingController::class, 'update'])->name('trainings.update');
 Route::get('trainings/add', [App\Http\Controllers\TrainingController::class, 'create'])->name('trainings.create');
 Route::post('trainings/store', [App\Http\Controllers\TrainingController::class, 'store'])->name('trainings.store');
+Route::get('trainings/{id}/show', [App\Http\Controllers\TrainingController::class, 'show'])->name('trainings.show');
+// Route::get('/trainings/fetch_steps/{id}', [App\Http\Controllers\TrainingController::class, 'fetch_steps'])->name('trainings.fetch_steps');

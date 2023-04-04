@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TrainingSteps;
 use App\Models\Training;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Department;
 
 use Illuminate\Http\Request;
@@ -48,6 +49,8 @@ class TrainingController extends Controller
                     Actions 
                   </button>
                   <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton" >
+                  <li><a href="' . route('trainings.show', ['id' => $row->id]) . '"  class="dropdown-item text-dark mx-1 h4" ><i class="bi-eye h4" ></i>View</a></li>
+
                     <li><a href="' . route('trainings.edit', ['id' => $row->id]) . '" id="' . $row->id . '" class="dropdown-item text-dark mx-1 h4 editIcon" ><i class="bi-pencil-square h4"></i>Edit</a></li>
                     <li><a href="javascript:void(0)" id="' . $row->id . '" data-url="' . route('trainings.delete', $row->id) . '" class="dropdown-item h4 text-dark mx-1 delete_btn"><i class="bi-trash h4"></i>Delete</a></li>
                   </ul>
@@ -69,33 +72,14 @@ class TrainingController extends Controller
     $data =  Department::all();
     return view('admin.trainings.create', compact('data'));
   }
-  // public function show($id)
-  // {
-  //   $data = Training::findOrFail($id);
-  //   $child_data = TrainingSteps::where('training_id', $id)->orderBy('step_num', 'asc')->get();
-  //   return view('', compact('data', 'child_data'));
-  // }
+  public function show($id)
+  {
+    $data = Training::findOrFail($id);
+    $child_data = TrainingSteps::where('training_id', $id)->orderBy('step_num', 'asc')->get();
+    return view('admin.trainings.show', compact('data', 'child_data'));
+  }
 
 
-  //   public function store(Request $request)
-  //   {
-  //     $image_name = $request->file('media');
-  //     $FileName = time() . '.' . $image_name->getClientOriginalExtension();
-  //     // foreach ($variable as $key => $value) {
-
-  //     // }
-  //     $image_name->storeAs('public/images', $FileName);
-
-  //     $empData = ['name' => $request->name, 'estimated_time' => $request->estimated_time, 'department_id' => $request->department];
-  //     $empData2 = ['step_num' => $request->step_num, 'step_name' => $request->step_name, 'media' => $FileName, 'description' =>  $request->description];
-  //     $training =  Training::create($empData);
-  //     $empData2['training_id'] = $training->id;
-  //     TrainingSteps::create($empData2);
-  //     return response()->json([
-  //       'status' => 200,
-  //     ]);
-  //   }
-  // }
   public function store(Request $request)
   {
 
@@ -134,42 +118,25 @@ class TrainingController extends Controller
       'status' => 200,
     ]);
   }
-  // public function store(Request $request)
-  // {
-
-  //   if ($request->hasFile('media')) {
-  //     $fileNames = [];
-  //     foreach ($request->file('media') as $file) {
-  //       $fileName = time() . '_' . $file->getClientOriginalName();
-  //       $file->storeAs('public/images', $fileName);
-  //       $fileNames[] = $fileName;
-  //     }
-  //   }
-  //   $empData = [
-  //     'name' => $request->name,
-  //     'estimated_time' => $request->estimated_time,
-  //     'department_id' => $request->department
-  //   ];
-  //   $training = Training::create($empData);
-
-  //   $step_names = $request->input('step_name');
-  //   $step_nums = $request->input('step_num');
-  //   $descriptions = $request->input('description');
-
-  //   // Loop through the input arrays and save the step records
-  //   for ($i = 0; $i < count($step_names); $i++) {
-  //     $empData2 = [
-  //       'step_num' => $step_nums[$i],
-  //       'step_name' => $step_names[$i],
-  //       'media' => $fileNames[$i], // Fix typo: should be $fileNames, not $fileName
-  //       'description' => $descriptions[$i],
-  //       'training_id' => $training->id
-  //     ];
-  //     TrainingSteps::create($empData2);
-  //   }
-
-  //   return response()->json([
-  //     'status' => 200,
-  //   ]);
-  // }
+  public function edit($id)
+  {
+    $data = Training::find($id);
+    return view('admin.trainings.edit', compact('data'));
+  }
+  public function update(Request $request, $id)
+  {
+    $model = Training::find($id);
+    $data = ['name' => $request->name, 'estimated_time' => $request->estimated_time, 'department_id' => $request->department];
+    $model->update($data);
+    return response()->json(['status' => 200]);
+  }
+  public function delete(Request $request, $id)
+  {
+    // $model = Training::find($id);
+    // @unlink('storage/images/' . $model->Avatar);
+    // User::destroy($id);
+    // if (Storage::delete('public/images/' . $model->Avatar)) {
+    Training::destroy($id);
+    // }
+  }
 }

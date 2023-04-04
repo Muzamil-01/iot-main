@@ -71,6 +71,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.bundle.min.js"></script>
 
 
+
     <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('assets/vendor/chart.js/chart.umd.js') }}"></script>
@@ -189,6 +190,45 @@
             })
         });
 
+
+        function set_dropzone() {
+            document.querySelectorAll(".drop-zone__input").forEach((inputElement) => {
+                const dropZoneElement = inputElement.closest(".drop-zone");
+
+                dropZoneElement.addEventListener("click", (e) => {
+                    inputElement.click();
+                });
+
+                inputElement.addEventListener("change", (e) => {
+                    if (inputElement.files.length) {
+                        updateThumbnail(dropZoneElement, inputElement.files[0]);
+                    }
+                });
+
+                dropZoneElement.addEventListener("dragover", (e) => {
+                    e.preventDefault();
+                    dropZoneElement.classList.add("drop-zone--over");
+                });
+
+                ["dragleave", "dragend"].forEach((type) => {
+                    dropZoneElement.addEventListener(type, (e) => {
+                        dropZoneElement.classList.remove("drop-zone--over");
+                    });
+                });
+
+                dropZoneElement.addEventListener("drop", (e) => {
+                    e.preventDefault();
+
+                    if (e.dataTransfer.files.length) {
+                        inputElement.files = e.dataTransfer.files;
+                        updateThumbnail(dropZoneElement, e.dataTransfer.files[0]);
+                    }
+
+                    dropZoneElement.classList.remove("drop-zone--over");
+                });
+            });
+        }
+
         @if (isset($fetch_route))
             // fetch all employees ajax request
             fetchData();
@@ -221,8 +261,8 @@
                                 <input type="text" class="form-control" name="step_num[]">
             <div class="drop-zone step-image2">
                 <span class="drop-zone__prompt">Drop file here or click to upload</span>
+                <input type="file" name="media[]" class="drop-zone__input">
                 </div>  
-                <input type="file" name="media[]" class="" multiple>
             <textarea name="description[]" id="" cols="30" rows="2" class="form-control"></textarea>      
             <div class="row">
                 <div class="offset-8 col-2 mt-2">
@@ -233,6 +273,8 @@
     `);
             $("#step").append(newStep);
             newStep.fadeIn();
+            set_dropzone();
+
         });
 
         $(document).on("click", "#RemoveBtn", function() {
@@ -242,6 +284,7 @@
         });
     </script>
 
+    @yield('js')
 
 </body>
 

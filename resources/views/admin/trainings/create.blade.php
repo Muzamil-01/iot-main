@@ -4,16 +4,19 @@
         <div class="row ">
             <div class="col-lg-12">
                 <form action="{{ route('trainings.store') }}" method="POST" id="add_form" enctype="multipart/form-data">
-                    <div class="row">
-                        <div class="col-lg-9 col-7">
-                            <a href="{{ route('trainings.index') }}"><i class="bi bi-arrow-left"></i> Back To Trainings</a>
-                        </div>
-                        <div class=" col-lg-3 col-5">
-                            <button type="submit" id="add_btn" class="btn btn-dark   add-btn">Save Data</button>
-                        </div>
-                    </div>
+
                     @csrf
                     <div class="card shadow">
+                        <div class="row m-2">
+                            <div class="col-lg-9 col-7">
+                                <a href="{{ route('trainings.index') }}"><i class="bi bi-arrow-left"></i> Back To
+                                    Trainings</a>
+                            </div>
+                            <div class=" col-lg-3 col-5">
+                                <button type="submit" id="add_btn" class="btn btn-dark   add-btn"> <i
+                                        class="bi bi-plus-circle"></i> Save Data</button>
+                            </div>
+                        </div>
                         <div class="card-body p-3">
                             <div class="row">
                                 <div class="col-3">
@@ -74,4 +77,9 @@
     </div>
     </div>
     </div>
+@endsection
+@section('js')
+    <script>
+        //
+    </script>
 @endsection

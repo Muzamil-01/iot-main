@@ -9,7 +9,7 @@
             <div class="col-lg-12 mt-2">
                 <div class="card shadow">
                     <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                        <h3 class="card-title text-dark">Department :- {{ $data->dep_name }}</h3>
+                        <h3 class="card-title text-dark">Department : {{ $data->dep_name }}</h3>
                         <div class="row">
 
 

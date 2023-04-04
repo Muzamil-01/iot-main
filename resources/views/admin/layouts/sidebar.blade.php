@@ -99,12 +99,21 @@
                 <span>issues</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a class="nav-link collapsed" href="{{ route('permissions') }}">
+                <i class="bi bi-exclamation-triangle"></i>
+                <span>Permissions</span>
+            </a>
+        </li>
+
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('roles') }}">
                 <i class="bi bi-exclamation-triangle"></i>
                 <span>Roles</span>
             </a>
         </li>
+
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{ route('departments.index') }}">
                 <i class="bi bi-building-fill"></i>

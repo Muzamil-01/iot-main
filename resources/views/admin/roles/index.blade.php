@@ -36,6 +36,13 @@
                 {!! $roles->links() !!}
             </div>
 
+
+   
+<div class="bg-light p-4 rounded">
+        <h1>Roles</h1>
+        <div class="lead">
+            Manage your roles here.
+            <a href="{{route('roles_create')}}" class="btn btn-primary btn-sm float-right">Add role</a>
         </div>
     </main>
 @endsection
