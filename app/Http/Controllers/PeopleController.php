@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 
 class PeopleController extends Controller
 {
@@ -16,13 +18,15 @@ class PeopleController extends Controller
     }
 
     public function fetch()
-    {
+    {   
         $data = User::all();
         $output = '';
+        
+
         if ($data->count() > 0) {
             $output .= '<table class="table table-striped table-sm text-center align-middle" id="#tabledata">
             <thead>
-              <tr >
+              <tr>
                 <th>ID</th>
                 <th>Avatar</th>
                 <th>Name</th>
@@ -35,6 +39,24 @@ class PeopleController extends Controller
             <tbody>';
 
             foreach ($data as $row) {
+                $show_view =
+        (auth()->user()->can('can view people')) ?
+        '<li><a href="' . route('peoples.show', ['id' => $row->id]) . '"  class="dropdown-item text-dark mx-1 h4" ><i class="bi-eye h4" ></i>View</a></li>'
+        : '';
+
+        $show_edit =
+        (auth()->user()->can('can edit people')) ?
+        '<li><a href="' . route('peoples.edit', ['id' => $row->id]) . '" id="' . $row->id . '" class="dropdown-item text-dark mx-1 h4 editIcon" ><i class="bi-pencil-square h4"></i>Edit</a></li>'
+        : '';
+
+        $show_delete =
+        (auth()->user()->can('can edit people')) ?
+        '<li><a href="javascript:void(0)" id="' . $row->id . '" data-url="' . route('peoples.delete', $row->id) . '" class="dropdown-item h4 text-dark mx-1 delete_btn"><i class="bi-trash h4"></i>Delete</a></li>'
+        : '';
+
+
+
+        
                 $output .= '<tr>
                 <td>' . $row->id . '</td>
                 <td><img src="storage/images/' . $row->Avatar . '" width="50px" height="50px" class="rounded-circle "></td>
@@ -48,11 +70,14 @@ class PeopleController extends Controller
                     Actions 
                   </button>
                   <ul class="dropdown-menu " aria-labelledby="dropdownMenuButton" >
-                    <li><a href="' . route('peoples.show', ['id' => $row->id]) . '"  class="dropdown-item text-dark mx-1 h4" ><i class="bi-eye h4" ></i>View</a></li>
-                    <li><a href="' . route('peoples.edit', ['id' => $row->id]) . '" id="' . $row->id . '" class="dropdown-item text-dark mx-1 h4 editIcon" ><i class="bi-pencil-square h4"></i>Edit</a></li>
-                    <li><a href="javascript:void(0)" id="' . $row->id . '" data-url="' . route('peoples.delete', $row->id) . '" class="dropdown-item h4 text-dark mx-1 delete_btn"><i class="bi-trash h4"></i>Delete</a></li>
+                  ' . $show_view . '
+                  ' . $show_edit . '
+                  ' . $show_delete . '
+                    
                   </ul>
                 </div>
+                
+               
                   </td>
               </tr>';
             }
@@ -64,40 +89,36 @@ class PeopleController extends Controller
     }
 
     public function create()
-    {
-        $data = Department::all();
-        return view("admin.people.create", compact('data'));
+    {   
+
+        $roles  = Role::all();
+        return view("admin.people.create",compact('roles'));
     }
 
     public function store(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'first_name' => 'required|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required|string|min:11|max:20|unique:users,phone',
-            'post' => 'required|string|max:255',
-            // 'avatar' => 'required|file|image|mimes:jpeg,png,jpg|max:2048',
-            'driving_license' => 'required|string|max:255',
-            'blood_type' => 'required|string|max:255',
-        ]);
 
-        if ($validator->fails()) {
+        // $role = Role::find($request->user_id);
 
-            return response()->json([
-                'status' => 403,
-                'message' => 'Validation Error',
-                'errors' => $validator->errors()
-            ]);
-        }
+
         $file = $request->file('avatar');
         $fileName = time() . '.' . $file->getClientOriginalExtension();
         $file->storeAs('public/images', $fileName);
-        $empData = ['name' => $request->first_name, 'lastname' => $request->last_name, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName, 'driving_license' => $request->driving_license, 'blood_type' => $request->blood_type, 'department_id' => $request->department_id];
-        User::create($empData);
+        $empData = ['name' => $request->fname, 'lastname' => $request->lname, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName];
+        
+        $user = User::create($empData);
+
+    
+        // $permissions = Permission::whereIn('name', ['Create post', 'Edit post'])->get();
+        // $user->assignPermissions($permissions);
+
+
+        $role = Role::find($request->role_id);
+        $user->assignRole($role->id);
+        $user->save();
+
         return response()->json([
             'status' => 200,
-            'message' => 'People has been added',
         ]);
     }
 
@@ -108,12 +129,16 @@ class PeopleController extends Controller
     }
 
     public function edit($id)
-    {
+    {   
+
+        $roles  = Role::all();
         $data = User::find($id);
-        return view('admin.people.edit', compact('data'));
+        return view('admin.people.edit', compact('data','roles'));
     }
     public function update(Request $request, $id)
     {
+
+
         $fileName = '';
         $model = User::find($id);
         if ($request->hasFile('avatar')) {
@@ -127,16 +152,17 @@ class PeopleController extends Controller
             $fileName = $request->emp_avatar;
         }
 
-        $data = ['name' => $request->first_name, 'lastname' => $request->last_name, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName, 'driving_license' => $request->driving_license, 'blood_type' => $request->blood_type, 'department_id' => $request->department_id];
-        // $data = ['name' => $request->fname, 'lastname' => $request->lname, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName];
+        $data = ['name' => $request->fname, 'lastname' => $request->lname, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName];
 
         $model->update($data);
 
-        return response()->json([
-            'status' => 200,
-            'message' => 'People has been updated',
 
-        ]);
+        $role = Role::find($request->role_id);
+        $model->assignRole($role);
+        $model->save();
+
+
+        return response()->json(['status' => 200]);
     }
     public function delete(Request $request, $id)
     {

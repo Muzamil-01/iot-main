@@ -40,21 +40,27 @@ Route::post('/update', [App\Http\Controllers\AllPeople::class, 'update'])->name(
 Route::get('/add', [App\Http\Controllers\AllPeople::class, 'add'])->name('add');
 
 
-
-Route::get('/roles', [App\Http\Controllers\RolesController::class, 'index'])->name('roles');
-Route::get('/roles/create', [App\Http\Controllers\RolesController::class, 'create'])->name('roles_create');
-Route::get('/roles/edit/{id}', [App\Http\Controllers\RolesController::class, 'edit'])->name('roles.edit');
-Route::get('/roles/store', [App\Http\Controllers\RolesController::class, 'store'])->name('roles.store');
-Route::get('/roles/update', [App\Http\Controllers\RolesController::class, 'update'])->name('roles.update');
-
-
-
+// Permission Routes
 
 Route::get('/permissions', [App\Http\Controllers\PermissionsController::class, 'index'])->name('permissions');
 Route::get('/permissions/create', [App\Http\Controllers\PermissionsController::class, 'create'])->name('permissions.create');
 Route::get('/permissions/edit/{id}', [App\Http\Controllers\PermissionsController::class, 'edit'])->name('permissions.edit');
 Route::get('/permissions/store', [App\Http\Controllers\PermissionsController::class, 'store'])->name('permissions.store');
 Route::get('/permissions/update', [App\Http\Controllers\PermissionsController::class, 'update'])->name('permissions.update');
+Route::get('/permissions/destroy', [App\Http\Controllers\PermissionsController::class, 'destroy'])->name('permissions.destroy');
+
+
+
+//Users Route
+
+Route::get('peoples', [App\Http\Controllers\PeopleController::class, 'index'])->name('peoples.index');
+Route::get('peoples/fetch', [App\Http\Controllers\PeopleController::class, 'fetch'])->name('peoples.fetch');
+Route::delete('peoples/{id}/delete', [App\Http\Controllers\PeopleController::class, 'delete'])->name('peoples.delete');
+Route::get('peoples/{id}/edit/', [App\Http\Controllers\PeopleController::class, 'edit'])->name('peoples.edit');
+Route::post('peoples/{id}/update', [App\Http\Controllers\PeopleController::class, 'update'])->name('peoples.update');
+Route::get('peoples/add', [App\Http\Controllers\PeopleController::class, 'create'])->name('peoples.create');
+Route::post('peoples/store', [App\Http\Controllers\PeopleController::class, 'store'])->name('peoples.store');
+Route::get('peoples/{id}/profile', [App\Http\Controllers\PeopleController::class, 'show'])->name('peoples.show');
 
 
 

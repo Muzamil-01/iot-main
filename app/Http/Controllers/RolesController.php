@@ -9,7 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 
-class
+class 
 RolesController extends Controller
 {
     /**
@@ -17,22 +17,24 @@ RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    function __construct()
-    {
-    }
+    public function construct(){
 
+        $this->middleware(['permission:can manage roles']);
+
+	}
+    
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        $roles = Role::orderBy('id', 'DESC')->paginate(5);
-        return view('admin.roles.index', compact('roles'))
+    {   
+        $roles = Role::orderBy('id','DESC')->paginate(5);
+        return view('admin.roles.index',compact('roles'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
-
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -43,8 +45,8 @@ RolesController extends Controller
         $permissions = Permission::get();
         return view('admin.roles.create', compact('permissions'));
     }
-
-
+    
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -57,12 +59,14 @@ RolesController extends Controller
         //     'name' => 'required|unique:roles,name',
         //     'permission' => 'required',
         // ]);
-
+    
         $role = Role::create(['name' => $request->get('name')]);
         $role->syncPermissions($request->get('permission'));
-
-        return redirect()->route('roles')
-            ->with('success', 'Role created successfully');
+    
+        return response()->json([
+			'status' => 200,
+            'success' => 'Role Successfully Create'
+		]);
     }
 
     /**
@@ -71,29 +75,36 @@ RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show($id)
     {
+
+        $role = Role::findOrFail($id);
+
         $role = $role;
         $rolePermissions = $role->permissions;
-
+    
         return view('admin.roles.show', compact('role', 'rolePermissions'));
     }
-
+    
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
+    public function edit($id)
     {
+
+        
+        $role = Role::findOrFail($id);
+
         $role = $role;
         $rolePermissions = $role->permissions->pluck('name')->toArray();
-        $permissions = Permission::get();
-
+        $permissions = Permission::all();
+    
         return view('admin.roles.edit', compact('role', 'rolePermissions', 'permissions'));
     }
-
+    
     /**
      * Update the specified resource in storage.
      *
@@ -101,19 +112,22 @@ RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Role $role, Request $request)
+    public function update(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required',
-            'permission' => 'required',
-        ]);
 
+        
+        $role = Role::findorFail($request->id);
+        
         $role->update($request->only('name'));
-
+    
         $role->syncPermissions($request->get('permission'));
 
-        return redirect()->route('admin.roles.index')
-            ->with('success', 'Role updated successfully');
+        $role->save();
+    
+        return response()->json([
+			'status' => 200,
+            'success' => 'Role Successfully Update'
+		]);
     }
 
     /**
@@ -122,11 +136,19 @@ RolesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Role $role)
-    {
-        $role->delete();
+    public function destroy($id)
+    {  
+        $role = Role::find($id);
 
-        return redirect()->route('admin.roles.index')
-            ->with('success', 'Role deleted successfully');
-    }
+        if (!$role) {
+            return response()->json(['error' => 'Role not found'], 404);
+        }
+    
+        $role->delete();
+    
+        return response()->json(['success' => 'Role deleted successfully'], 200);
+
+
+}
+
 }

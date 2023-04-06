@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Traits\HasRoles;
+use Spatie\Permission\Traits\HasPermissions;
 
 
 class PermissionsController extends Controller
@@ -15,6 +17,14 @@ class PermissionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+     public function construct(){
+
+        $this->middleware(['permission:can manage permissions']);
+
+	}
+
+
     public function index()
     {   
         $permissions = Permission::all();
@@ -48,7 +58,10 @@ class PermissionsController extends Controller
 
         Permission::create($request->only('name'));
 
-        return view('admin.permissions.index');
+        return response()->json([
+			'status' => 200,
+            'success' => 'Permission Successfully Updated'
+		]);
     }
 
     /**
@@ -57,9 +70,11 @@ class PermissionsController extends Controller
      * @param  Permission  $post
      * @return \Illuminate\Http\Response
      */
-    public function edit(Permission $id)
+    public function edit($id)
     {   
-        $permission = DB::table('permissions')->where('id', $id)->get();
+        // $permission = DB::table('permissions')->where('id', $id)->get();
+
+        $permission=  Permission::findOrFail($id);
 
         return view('admin.permissions.edit',compact('permission'));
 
@@ -72,17 +87,27 @@ class PermissionsController extends Controller
      * @param  Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission)
+    public function update(Request $request)
     {
-        $request->validate([
-            'name' => 'required|unique:permissions,name,'.$permission->id
-        ]);
+       
+
+
+        $permission = Permission::findOrFail($request->id);
+
+       
+        if(!$permission->id){
+
+            return response()->json([ 'status' => 200,
+            'false' => 'Permission Not Found' ]);
+        }
 
         $permission->update($request->only('name'));
 
+        $permission->save();
+
         return response()->json([
 			'status' => 200,
-            'message' => 'Permission Successfully Updated'
+            'success' => 'Permission Successfully Updated'
 		]);
     }
 
@@ -92,12 +117,17 @@ class PermissionsController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Permission $permission)
+    public function destroy(Permission $id)
     {
-        
+
+    
+        $permission = Permission::findOrfail($id);
+
         $permission->delete();
 
-        return redirect()->route('admin.permissions.index')
-            ->withSuccess(__('Permission deleted successfully.'));
+        return response()->json([
+			'status' => 200,
+            'success' => 'Permission Successfully Deleted'
+		]);
     }
 }
