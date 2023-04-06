@@ -21,6 +21,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->string('post')->nullable();
             $table->string('Avatar')->nullable();
+            $table->integer('department_id')->nullable();
+            // $table->foreign('department_id')->references('id')->on('departments');
             $table->rememberToken();
             $table->timestamps();
         });

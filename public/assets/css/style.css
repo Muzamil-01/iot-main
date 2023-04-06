@@ -1250,8 +1250,8 @@ h6 {
 .add-btn {
     color: #fff;
     padding: 10px !important;
-    border-radius: 0px !important;
-    width: 180px;
+    border-radius: 4px !important;
+    width: 166px;
     background-color: #4154f1 !important;
     border-color: #7571f9 !important;
     box-shadow: 0 2px 2px 0 rgba(180, 191, 251, 0.977),
@@ -1265,7 +1265,7 @@ h6 {
 .styled-btn {
     color: #fff;
     padding: 10px !important;
-    border-radius: 0px !important;
+    border-radius: 4px !important;
     width: 180px;
     background-color: #4154f1 !important;
     border-color: #7571f9 !important;
@@ -1277,11 +1277,28 @@ h6 {
     background-color: rgb(58, 25, 243) !important;
     transition: 0.5s;
 }
+.styled-btn2 {
+    color: #fff;
+    padding: 10px !important;
+    border-radius: 4px !important;
+    width: 166px;
+    background-color: #4154f1 !important;
+    border-color: #7571f9 !important;
+    box-shadow: 0 2px 2px 0 rgba(180, 191, 251, 0.977),
+        0 3px 1px -2px rgba(186, 191, 255, 0.98),
+        0 1px 5px 0 rgba(195, 192, 245, 0.691);
+}
+.styled-btn2:hover {
+    background-color: rgb(58, 25, 243) !important;
+    transition: 0.5s;
+}
 .add-btn2 {
     color: #fff;
     padding: 10px !important;
-    border-radius: 0px !important;
-    width: 180px;
+    border-radius: 4px !important;
+
+    width: 166px;
+
     background-color: #d31821 !important;
     border-color: #ff0000 !important;
     box-shadow: 0 2px 2px 0 rgba(180, 191, 251, 0.977),
@@ -1301,7 +1318,7 @@ h6 {
 .drop-zone {
     max-width: 250px;
     height: 130px;
-    padding: 25px;
+    /* padding: 25px; */
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1367,6 +1384,7 @@ h6 {
     font-weight: 500;
     color: #012970;
     font-family: "Poppins", sans-serif;
+    text-align: start !important;
 }
 .step-description {
     padding: 0px 0 15px 0;
@@ -1374,59 +1392,4 @@ h6 {
     font-weight: 500;
     color: #012970;
     font-family: "Poppins", sans-serif;
-}
-/* darg drop css */
-.drag-image {
-    border: 1px dashed #081f95;
-    max-width: 250px;
-    height: 130px;
-    border-radius: 5px;
-    font-weight: 400;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-}
-.drag-image.active {
-    border: 2px solid #000000;
-}
-.drag-image .icon {
-    font-size: 30px;
-    color: #000000;
-}
-.drag-image h6 {
-    font-size: 20px;
-    font-weight: 300;
-    color: #000000;
-}
-.drag-image span {
-    font-size: 14px;
-    font-weight: 300;
-    color: #000000;
-    margin: 10px 0 15px 0;
-}
-.drag-image button {
-    padding: 10px 25px;
-    font-size: 14px;
-    font-weight: 300;
-    border: none;
-    outline: none;
-    background: transparent;
-    color: #000000;
-    border: 1px solid #ff0101;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.5s;
-}
-
-.drag-image button:hover {
-    background-color: #fff;
-    color: red;
-}
-
-.drag-image img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    border-radius: 5px;
 }

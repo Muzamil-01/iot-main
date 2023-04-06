@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Department;
 use App\Models\Training;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class DepartmentController extends Controller
 {
@@ -121,14 +122,45 @@ class DepartmentController extends Controller
    * @param  \Illuminate\Http\Request  $request
    * @return \Illuminate\Http\Response
    */
+
+  //  older version store
+
+  // public function store(Request $request)
+  // {
+  // $empData = ['dep_name' => $request->dep_name, 'description' => $request->description];
+  // Department::create($empData);
+  // redirect("")
+  // return response()->json([
+  //   'status' => 200,
+  // ]);
+  // }
+
+
   public function store(Request $request)
   {
-    $empData = ['dep_name' => $request->dep_name, 'description' => $request->description];
-    Department::create($empData);
+    $validator = Validator::make($request->all(), [
+      'department_name' => 'required|max:255',
+      'description' => 'required',
+    ]);
+
+    if ($validator->fails()) {
+
+      return response()->json([
+        'status' => 403,
+        'message' => 'Validation Error',
+        'errors' => $validator->errors()
+      ]);
+    }
+
+    $empData = ['dep_name' => $request->department_name, 'description' => $request->description];
+    $department = Department::create($empData);
     return response()->json([
       'status' => 200,
+      'message' => 'Department has been added',
+      'redirect_route' => route('trainings.create') . '?department=' . $department->id
     ]);
   }
+
 
   /**
    * Display the specified resource.
@@ -170,11 +202,15 @@ class DepartmentController extends Controller
   public function update(Request $request, $id)
   {
     $model = Department::find($id);
-    $data = ['dep_name' => $request->dep_name, 'description' => $request->description];
+    $data = ['dep_name' => $request->department_name, 'description' => $request->description];
 
     $model->update($data);
 
-    return response()->json(['status' => 200]);
+    return response()->json([
+      'status' => 200,
+      'message' => 'Department has been updated',
+
+    ]);
   }
 
   /**

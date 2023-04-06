@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class PeopleController extends Controller
 {
@@ -52,8 +53,6 @@ class PeopleController extends Controller
                     <li><a href="javascript:void(0)" id="' . $row->id . '" data-url="' . route('peoples.delete', $row->id) . '" class="dropdown-item h4 text-dark mx-1 delete_btn"><i class="bi-trash h4"></i>Delete</a></li>
                   </ul>
                 </div>
-                
-               
                   </td>
               </tr>';
             }
@@ -66,18 +65,39 @@ class PeopleController extends Controller
 
     public function create()
     {
-        return view("admin.people.create");
+        $data = Department::all();
+        return view("admin.people.create", compact('data'));
     }
 
     public function store(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|min:11|max:20|unique:users,phone',
+            'post' => 'required|string|max:255',
+            // 'avatar' => 'required|file|image|mimes:jpeg,png,jpg|max:2048',
+            'driving_license' => 'required|string|max:255',
+            'blood_type' => 'required|string|max:255',
+        ]);
+
+        if ($validator->fails()) {
+
+            return response()->json([
+                'status' => 403,
+                'message' => 'Validation Error',
+                'errors' => $validator->errors()
+            ]);
+        }
         $file = $request->file('avatar');
         $fileName = time() . '.' . $file->getClientOriginalExtension();
         $file->storeAs('public/images', $fileName);
-        $empData = ['name' => $request->fname, 'lastname' => $request->lname, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName];
+        $empData = ['name' => $request->first_name, 'lastname' => $request->last_name, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName, 'driving_license' => $request->driving_license, 'blood_type' => $request->blood_type, 'department_id' => $request->department_id];
         User::create($empData);
         return response()->json([
             'status' => 200,
+            'message' => 'People has been added',
         ]);
     }
 
@@ -107,11 +127,16 @@ class PeopleController extends Controller
             $fileName = $request->emp_avatar;
         }
 
-        $data = ['name' => $request->fname, 'lastname' => $request->lname, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName];
+        $data = ['name' => $request->first_name, 'lastname' => $request->last_name, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName, 'driving_license' => $request->driving_license, 'blood_type' => $request->blood_type, 'department_id' => $request->department_id];
+        // $data = ['name' => $request->fname, 'lastname' => $request->lname, 'email' => $request->email, 'phone' => $request->phone, 'post' => $request->post, 'Avatar' => $fileName];
 
         $model->update($data);
 
-        return response()->json(['status' => 200]);
+        return response()->json([
+            'status' => 200,
+            'message' => 'People has been updated',
+
+        ]);
     }
     public function delete(Request $request, $id)
     {

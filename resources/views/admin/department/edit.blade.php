@@ -3,46 +3,39 @@
 @section('main-section')
     <div class="container">
         <form action="{{ route('departments.update', $data->id) }}" method="POST" id="edit_form" enctype="multipart/form-data">
-            @csrf
-            <input type="hidden" name="dep_id" id="dep_id" value="{{ $data->id }}">
+            <div class="row m-2">
+                <input type="hidden" name="dep_id" id="dep_id" value="{{ $data->id }}">
 
-            <div class="row">
-                <div class="col-lg-9 col-9">
-                    <a href="{{ route('departments.index') }}"><i class="bi bi-arrow-left"></i> Back To Departments</a>
+                <div class="col-lg-10 col-7 mt-3">
+                    <a href="{{ route('departments.index') }}" style="margin-left: -20px"><i class="bi bi-arrow-left"></i>
+                        Back
+                        To Departments</a>
                 </div>
-                <div class=" col-lg-3 col-3">
-                    <button type="submit" id="edit_employee_btn2" class="btn btn-dark  add-btn"> Save Changes</button>
+                <div class=" col-lg-2 col-5">
+                    <button type="submit" id="edit_employee_btn2" class="btn btn-dark   add-btn"><i
+                            class="bi bi-plus-circle"></i>
+                        Save
+                        Changes</button>
                 </div>
-                <div class="col-lg-12">
-                    <div class="card shadow mt-3">
-                        <div class="row">
-                            <div class="col-lg-8 col-6 m-4">
-                                <h5 class="card-title">EDIT DEPARTMENT</h5>
-                            </div>
-                            <div class="col-lg-3 col-3 mt-2">
-
-                            </div>
+            </div>
+            <div class="card shadow mt-3">
+                @csrf
+                <div class="container p-3 mt-3  mb-5  col-lg-9">
+                    <h2 class="card-title">Edit Department</h2>
+                    <div class="row ">
+                        <div class="col-lg-12 mt-3 ">
+                            <label for="department_name" class="training-label-text">Department Name</label>
+                            <input type="text" name="department_name" class="form-control" value="{{ $data->dep_name }}">
                         </div>
-                        <div class="card-body mt-1" id="">
-                            <div class="modal-body p-2   mb-5 ">
-                                <div class="row">
-                                    <div class="col-lg-4 mt-4">
-                                        <label for="dep_name">Department Name</label>
-                                        <input type="text" name="dep_name" class="form-control"
-                                            placeholder="Department Name" value="{{ $data->dep_name }}" required>
-                                    </div>
-                                    <div class=" col-lg-4 mt-5 my-2">
-                                        <label for="description">Department Description</label>
-                                        <textarea type="text" name="description" class="form-control" placeholder="Department Description" required>
-                                            {{ $data->description }}
-                                        </textarea>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class=" col-lg-12 mt-3">
+                            <label for="description" class="training-label-text">Department Description</label>
+                            <textarea type="text" name="description" class="form-control" placeholder="Department Description">
+                                {{ $data->description }}
+                                </textarea>
                         </div>
+                    </div>
+                </div>
         </form>
-    </div>
-    </div>
     </div>
     </div>
     </div>

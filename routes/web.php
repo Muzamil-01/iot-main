@@ -86,9 +86,20 @@ Route::get('/departments/fetch_training/{id}', [App\Http\Controllers\DepartmentC
 Route::get('trainings', [App\Http\Controllers\TrainingController::class, 'index'])->name('trainings.index');
 Route::get('trainings/fetch', [App\Http\Controllers\TrainingController::class, 'fetch'])->name('trainings.fetch');
 Route::delete('trainings/{id}/delete', [App\Http\Controllers\TrainingController::class, 'delete'])->name('trainings.delete');
+Route::delete('steps/{id}/delete', [App\Http\Controllers\TrainingController::class, 'delete_steps'])->name('steps.delete');
+
 Route::get('trainings/{id}/edit/', [App\Http\Controllers\TrainingController::class, 'edit'])->name('trainings.edit');
+Route::get('steps/{id}/view/', [App\Http\Controllers\TrainingController::class, 'steps_view'])->name('steps.view');
+Route::get('steps/{id}/edit/', [App\Http\Controllers\TrainingController::class, 'steps_edit'])->name('steps.edit');
+
 Route::post('trainings/{id}/update', [App\Http\Controllers\TrainingController::class, 'update'])->name('trainings.update');
+Route::post('steps/{id}/update', [App\Http\Controllers\TrainingController::class, 'steps_update'])->name('steps.update');
+
 Route::get('trainings/add', [App\Http\Controllers\TrainingController::class, 'create'])->name('trainings.create');
+// Route::get('trainings/{id}/add/', [App\Http\Controllers\TrainingController::class, 'create'])->name('trainings.create.department');
 Route::post('trainings/store', [App\Http\Controllers\TrainingController::class, 'store'])->name('trainings.store');
 Route::get('trainings/{id}/show', [App\Http\Controllers\TrainingController::class, 'show'])->name('trainings.show');
 // Route::get('/trainings/fetch_steps/{id}', [App\Http\Controllers\TrainingController::class, 'fetch_steps'])->name('trainings.fetch_steps');
+
+// Route::get('/wizardform',function(){
+// })

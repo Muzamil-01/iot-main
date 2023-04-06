@@ -411,3 +411,6 @@ function updateThumbnail(dropZoneElement, file) {
         thumbnailElement.style.backgroundImage = null;
     }
 }
+// wizard
+
+// wizard end

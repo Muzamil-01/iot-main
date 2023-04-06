@@ -28,7 +28,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/css/bootstrap.min.css">
     <!-- Vendor CSS Files -->
     <link href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/6.0.39/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@mdi/font@6.3.95/css/materialdesignicons.min.css">
 
     <link href="{{ asset('assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
     <link href="{{ asset('assets/vendor/boxicons/css/boxicons.min.css') }}" rel="stylesheet" />
@@ -40,6 +40,9 @@
 
     <!-- Template Main CSS File -->
     <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet" />
+
+
+    @yield('css')
 </head>
 
 <body>
@@ -88,6 +91,7 @@
     <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+
     <script>
         $(function() {
 
@@ -96,6 +100,7 @@
                 e.preventDefault();
                 const fd = new FormData(this);
                 var url = $(this).attr('action');
+                var prev_button_text = $("button[type='submit']").html();
                 $("button[type='submit']").text('Updating...');
                 $.ajax({
                     url: url,
@@ -116,7 +121,7 @@
                         } else {
 
                         }
-                        $("button[type='submit']").text('Update');
+                        $("button[type='submit']").html(prev_button_text);
 
                     }
                 });
@@ -125,9 +130,11 @@
             //   add ajax
             $(document).on('submit', "#add_form", function(e) {
                 e.preventDefault();
+                $('.validation_errors_mesessag').remove();
                 const fd = new FormData(this);
                 var url = $(this).attr('action');
-                $("button[type='submit']").text('Adding...');
+                var prev_button_text = $("button[type='submit']").html();
+                $("button[type='submit']").text('Please wait...');
                 $.ajax({
                     url: url,
                     method: 'post',
@@ -139,12 +146,24 @@
                     success: function(response) {
                         if (response.status == 200) {
                             Swal.fire(
-                                'Added!',
+                                'Success!',
                                 response.message,
                                 'success'
                             )
-                            $("button[type='submit']").text('Save Data');
+                            if (response.redirect_route != undefined) {
+                                window.location.href = response.redirect_route;
+                            }
+                            $("button[type='submit']").html(prev_button_text);
                             $("#add_form")[0].reset();
+                        } else if (response.status == 403) {
+                            $.each(response.errors, function(i, err) {
+                                // console.log(i + err);
+                                $("[name='" + i + "']").parent('div').append(
+                                    '<p class="text-danger validation_errors_mesessag">' +
+                                    i + ' ' +
+                                    err + '</p>');
+                            });
+                            $("button[type='submit']").html(prev_button_text);
                         }
                     }
                 });
@@ -180,7 +199,7 @@
                             console.log(response);
                             Swal.fire(
                                 'Deleted!',
-                                'Your file has been deleted.',
+                                'Your data has been deleted.',
                                 'success'
                             )
                             fetchData();
@@ -229,6 +248,7 @@
             });
         }
 
+
         @if (isset($fetch_route))
             // fetch all employees ajax request
             fetchData();
@@ -263,9 +283,10 @@
                 <span class="drop-zone__prompt">Drop file here or click to upload</span>
                 <input type="file" name="media[]" class="drop-zone__input">
                 </div>  
+                <label for="step" class="training-label-text">Description</label>
             <textarea name="description[]" id="" cols="30" rows="2" class="form-control"></textarea>      
             <div class="row">
-                <div class="offset-8 col-2 mt-2">
+                <div class="offset-9 col-2 mt-4">
                     <button type="button" class="btn btn-sm btn-danger add-btn2" id="RemoveBtn"><i class="bi bi-cloud-minus"></i> Remove</button>          
                 </div>
             </div>

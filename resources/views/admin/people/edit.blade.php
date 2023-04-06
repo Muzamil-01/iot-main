@@ -8,12 +8,18 @@
             <input type="hidden" name="emp_avatar" id="emp_avatar" value="{{ $data->Avatar }}">
 
             <div class="row">
-                <div class="col-lg-9 col-9">
-                    <a href="{{ route('peoples.index') }}"><i class="bi bi-arrow-left"></i> Back To People</a>
+                <div class="col-lg-10 col-7 mt-3">
+                    <a href="{{ route('peoples.index') }}"><i class="bi bi-arrow-left"></i>
+                        Back
+                        To Peoples</a>
                 </div>
-                <div class=" col-lg-3 col-3">
-                    <button type="submit" id="edit_employee_btn2" class="btn btn-dark  add-btn">+ Save Data</button>
+                <div class=" col-lg-2 col-5">
+                    <button type="submit" id="edit_employee_btn2" class="btn btn-dark   add-btn"
+                        style="margin-left: -15px"><i class="bi bi-plus-circle"></i>
+                        Save
+                        Changes</button>
                 </div>
+
                 <div class="col-lg-12">
                     <div class="card shadow mt-3">
                         <div class="row">
@@ -38,12 +44,12 @@
                                     </div>
                                     <div class="col-lg-4 mt-4">
                                         <label for="fname">First Name</label>
-                                        <input type="text" name="fname" id="fname" class="form-control"
+                                        <input type="text" name="first_name" id="fname" class="form-control"
                                             placeholder="First Name" value="{{ $data->name }}" required>
                                     </div>
                                     <div class="col-lg-4 mt-4">
                                         <label for="lname">Last Name</label>
-                                        <input type="text" name="lname" id="lname" class="form-control"
+                                        <input type="text" name="last_name" id="lname" class="form-control"
                                             placeholder="Last Name" required value="{{ $data->lastname }}">
                                     </div>
                                     <div class="my-1 col-lg-4 mt-4">
@@ -62,16 +68,16 @@
                                             placeholder="Post" value="{{ $data->post }}" required>
                                     </div>
                                     <div class=" col-lg-4 mt-5 my-2">
-                                        <label for="drivinglicense">Driving License</label>
+                                        <label for="driving_license">Driving License</label>
                                         <input type="text" name="drivinglicense" class="form-control"
                                             placeholder="drivinglicense">
                                     </div>
-                                    <div class=" col-lg-4 mt-5 my-2">
+                                    {{-- <div class=" col-lg-4 mt-5 my-2">
                                         <label for="Alergies">Alergies</label>
                                         <input type="text" name="alergies" class="form-control" placeholder="Alergies">
-                                    </div>
+                                    </div> --}}
                                     <div class=" col-lg-4 mt-5 my-2">
-                                        <label for="bloodtype">Blood Type</label>
+                                        <label for="blood_type">Blood Type</label>
                                         <input type="text" name="bloodtype" class="form-control"
                                             placeholder="Blood Type">
                                     </div>

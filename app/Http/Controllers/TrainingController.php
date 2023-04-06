@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Department;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TrainingController extends Controller
 {
@@ -28,7 +29,7 @@ class TrainingController extends Controller
     $output = '';
     // dd($data);
     if ($data->count() > 0) {
-      $output .= '<table class="table table-striped table-sm text-center align-middle" id="#tabledata">
+      $output .= '<table class="table table-striped table-sm text-center align-middle " id="#tabledata" >
             <thead>
               <tr >
                 <th>ID</th>
@@ -69,20 +70,44 @@ class TrainingController extends Controller
 
   public function create()
   {
+
+    $selected_department_id = 0;
+    if (request()->has('department') && request()->filled('department')) {
+      $selected_department_id = request()->get('department');
+    }
     $data =  Department::all();
-    return view('admin.trainings.create', compact('data'));
+    return view('admin.trainings.create', compact('data', 'selected_department_id'));
   }
-  public function show($id)
+  public function show(Request $request, $id)
   {
     $data = Training::findOrFail($id);
     $child_data = TrainingSteps::where('training_id', $id)->orderBy('step_num', 'asc')->get();
-    return view('admin.trainings.show', compact('data', 'child_data'));
+    return view('admin.trainings.show', compact('data', 'child_data'), ['request' => $request]);
   }
 
 
   public function store(Request $request)
   {
 
+    $validator = Validator::make($request->all(), [
+      'name' => 'required|max:255',
+      'estimated_time' => 'required',
+      'step_num.*' => 'required',
+      'step_name.*' => 'required',
+      'media.*' => 'required',
+      'description.*' => 'required',
+    ]);
+
+
+
+    if ($validator->fails()) {
+
+      return response()->json([
+        'status' => 403,
+        'message' => 'Validation Error',
+        'errors' => $validator->errors()
+      ]);
+    }
     if ($request->hasFile('media')) {
       $fileNames = [];
       foreach ($request->file('media') as $file) {
@@ -113,30 +138,75 @@ class TrainingController extends Controller
       ];
       TrainingSteps::create($empData2);
     }
-
     return response()->json([
       'status' => 200,
+      'message' => 'Training has been added',
     ]);
   }
+
   public function edit($id)
   {
     $data = Training::find($id);
     return view('admin.trainings.edit', compact('data'));
+  }
+  public function steps_view($id)
+  {
+    $data = Training::find($id);
+    $child_data = TrainingSteps::where('training_id', $id)->orderBy('step_num', 'asc')->get();
+    return view('admin.trainings.steps', compact('child_data', 'data'));
+  }
+  public function steps_edit($id)
+  {
+    $data = TrainingSteps::find($id);
+    return view('admin.trainings.edit_steps', compact('data'));
+  }
+  public function steps_update(Request $request, $id)
+  {
+    $fileName = '';
+    $model = TrainingSteps::find($id);
+    if ($request->hasFile('media')) {
+      $file = $request->file('media');
+      $fileName = time() . '.' . $file->getClientOriginalExtension();
+      $file->storeAs('public/images', $fileName);
+      if ($model->media) {
+        Storage::delete('public/images/' . $model->media);
+      }
+    } else {
+      $fileName = $model->media;
+    }
+
+    $data = ['step_name' => $request->step_name, 'step_num' => $request->step_num, 'description' => $request->description, 'media' => $fileName];
+
+    $model->update($data);
+
+    return response()->json([
+      'status' => 200,
+      'message' => 'Steps has been updated',
+
+    ]);
   }
   public function update(Request $request, $id)
   {
     $model = Training::find($id);
     $data = ['name' => $request->name, 'estimated_time' => $request->estimated_time, 'department_id' => $request->department];
     $model->update($data);
-    return response()->json(['status' => 200]);
+    return response()->json([
+      'status' => 200,
+      'message' => 'Training has been updated',
+
+    ]);
   }
-  public function delete(Request $request, $id)
+  public function delete($id)
   {
-    // $model = Training::find($id);
-    // @unlink('storage/images/' . $model->Avatar);
-    // User::destroy($id);
-    // if (Storage::delete('public/images/' . $model->Avatar)) {
-    Training::destroy($id);
-    // }
+    $training = Training::find($id);
+    $training->steps()->delete();
+    $training->delete();
+  }
+
+  public function delete_steps($id)
+  {
+    $model = TrainingSteps::find($id);
+    @unlink('storage/images/' . $model->media);
+    TrainingSteps::destroy($id);
   }
 }
