@@ -5,6 +5,7 @@ namespace App\Http\Helpers;
 use App\Models\Department;
 use App\Models\Training;
 use App\Models\UserTrainings;
+use App\Models\Issues;
 use Illuminate\Support\Facades\Auth;
 
 class UserTraining
@@ -25,7 +26,6 @@ class UserTraining
 
         return $user_training;
     }
-
     public function check_if_attended_all_tranings(Department $department)
     {
         $trainings = Training::where('department_id', '=', $department->id)->get();
@@ -36,16 +36,23 @@ class UserTraining
             if (!UserTrainings::where('user_id', '=', $user->id)
                 ->where('training_id', '=', $training->id)
                 // ->where('status', '=', 1)
-                ->exits()) {
+                ->exists()) {
 
                 $message = 'User ' . $user->name . ' belongs to ' . $department->dep_name . ' has not attended the training: <a href="' . route('trainings.show', $training->id) . '" >' . $training->name . '</a>';
 
-                Issue::create([
-                    'name' => 'Did not attended the training',
-                    'user_id' => $user->id,
-                    'department_id' => $department->id,
-                    'description' => $message
-                ]);
+                if (!Issues::where('user_id', '=', $user->id)
+                    ->where('training_id', '=', $training->id)
+                    // ->where('status', '=', 1)
+                    ->exists()) {
+
+                    Issues::create([
+                        'name' => 'Did not attended the training',
+                        'user_id' => $user->id,
+                        'department_id' => $department->id,
+                        'training_id' => $training->id,
+                        'description' => $message
+                    ]);
+                }
             }
         }
     }

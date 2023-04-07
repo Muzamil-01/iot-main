@@ -21,9 +21,9 @@ class UserIssues
         if (auth()->check()) {
 
             $user = auth()->user();
+            if ($user->department_id != null && Department::where('id', '=', $user->department_id)->exists()) {
+                $department = Department::find($user->department_id);
 
-            if ($user->deparment_id != null && Department::where('id', '=', $user->deparment_id)->exits()) {
-                $department = Department::find($user->deparment_id);
                 $user_training =  new UserTraining();
                 $user_training->check_if_attended_all_tranings($department);
             }

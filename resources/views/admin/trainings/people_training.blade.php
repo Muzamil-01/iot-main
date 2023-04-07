@@ -46,7 +46,7 @@
 
                     .card-img-overlay {
                         transition: all 800ms cubic-bezier(0.19, 1, 0.22, 1);
-                        background: rgb(35, 79, 109);
+                        background: rgb(30, 79, 109);
                         background: linear-gradient(0deg, rgba(4, 69, 114, 0.5) 0%, rgba(4, 69, 114, 1) 100%);
                     }
                 }
@@ -87,6 +87,12 @@
                 background: linear-gradient(0deg, rgba(35, 79, 109, 0.3785889355742297) 0%, rgba(69, 95, 113, 1) 100%);
             }
         }
+
+        /* .card-title {
+                                                                        width: 95% !important;
+                                                                        padding: 20px 5px !important;
+                                                                    } */
+
 
         @media (max-width: 767px) {}
     </style>
@@ -133,12 +139,17 @@
         </div>
     </div> --}}
 
-
     <section class="wrapper">
+        <div class="row">
+            <div class="card-title p-4   ">
+                Trainings :
+            </div>
+        </div>
         <div class="container">
-
             <div class="row">
-                {{ $i = 1 }}
+                @php
+                    $i = 1;
+                @endphp
                 @foreach ($data as $trainings)
                     <div class="col-sm-12 col-md-6 col-lg-4 mb-4">
                         <a href="{{ route('trainings.show', ['id' => $trainings->id]) }}">
@@ -161,7 +172,7 @@
                                                 src="{{ asset('storage/images/people_training.png') }}"
                                                 alt="Generic placeholder image" style="max-width:50px">
                                             <div class="media-body">
-                                                <h6 class="my-0 text-white d-block">{{ $trainings->created_at }}</h6>
+                                                {{-- <h6 class="my-0 text-white d-block">{{ $trainings->created_at }}</h6> --}}
                                             </div>
                                         </div>
                                     </div>

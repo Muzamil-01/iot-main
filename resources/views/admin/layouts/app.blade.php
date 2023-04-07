@@ -97,6 +97,7 @@
 
     <script>
         $(function() {
+            $('.select2').select2();
 
             //   edit ajax 
             $(document).on('submit', "#edit_form", function(e) {
@@ -306,7 +307,6 @@
                 $(this).remove();
             });
         });
-        $('.select2').select2();
     </script>
 
     @yield('js')

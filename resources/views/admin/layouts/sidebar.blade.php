@@ -96,7 +96,7 @@
         <!-- End Error 404 Page Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('issues') }}">
+            <a class="nav-link collapsed" href="{{ route('issues.index') }}">
                 <i class="bi bi-exclamation-triangle"></i>
                 <span>issues</span>
             </a>

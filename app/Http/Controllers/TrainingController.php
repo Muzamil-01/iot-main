@@ -20,16 +20,20 @@ class TrainingController extends Controller
   public function __construct()
   {
     $this->middleware('auth');
+    // $user = auth()->user();
+    // $department = Department::findorFail($user->department_id);
+    // $user_training = new UserTraining();
+    // $user_training->check_if_attended_all_tranings($department);
   }
 
   public function index()
   {
+
+
     $user = auth()->user();
-    // $data = Training::where('department_id', $user->department_id)->get();
-    $data = Training::all();
-    $data2 = Department::where('id', $data->training_id);
+    $data = Training::where('department_id', $user->department_id)->get();
     if (!$user->hasRole(['super-admin', 'admin', 'editor', 'moderator'])) {
-      return view("admin.trainings.people_training", compact('data', 'data2'));
+      return view("admin.trainings.people_training", compact('data'));
     } else {
       return view("admin.trainings.index", ['fetch_route' => route('trainings.fetch')]);
     }
@@ -105,8 +109,10 @@ class TrainingController extends Controller
     $data = Training::find($id);
 
     $user_training = new UserTraining();
-
+    // $user = auth()->user();
+    // $department = $user->department_id;
     $user_training->initialize($data);
+    // $user_training->check_if_attended_all_tranings($department);
 
     return view('admin.trainings.show', compact('data', 'child_data'), ['request' => $request]);
   }
