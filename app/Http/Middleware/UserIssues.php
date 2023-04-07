@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Models\Department;
 use Closure;
 use Illuminate\Http\Request;
+use App\Http\Helpers\UserTraining;
 
 class UserIssues
 {
@@ -22,10 +23,9 @@ class UserIssues
             $user = auth()->user();
 
             if ($user->deparment_id != null && Department::where('id', '=', $user->deparment_id)->exits()) {
-
-                // if ($user->department()->trainings()->count() > 0) {
-
-                // }
+                $department = Department::find($user->deparment_id);
+                $user_training =  new UserTraining();
+                $user_training->check_if_attended_all_tranings($department);
             }
         }
         return $next($request);

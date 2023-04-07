@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helpers\UserTraining;
 use App\Models\TrainingSteps;
+use App\Models\UserTrainings;
 use App\Models\Training;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Department;
 
+use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
 
 class TrainingController extends Controller
 {
@@ -19,8 +24,17 @@ class TrainingController extends Controller
 
   public function index()
   {
-    return view("admin.trainings.index", ['fetch_route' => route('trainings.fetch')]);
+    $user = auth()->user();
+    // $data = Training::where('department_id', $user->department_id)->get();
+    $data = Training::all();
+    $data2 = Department::where('id', $data->training_id);
+    if (!$user->hasRole(['super-admin', 'admin', 'editor', 'moderator'])) {
+      return view("admin.trainings.people_training", compact('data', 'data2'));
+    } else {
+      return view("admin.trainings.index", ['fetch_route' => route('trainings.fetch')]);
+    }
   }
+
 
 
   public function fetch()
@@ -43,7 +57,7 @@ class TrainingController extends Controller
         $output .= '<tr>
                 <td>' . $row->id . '</td>
                 <td>' . $row->name . '</td>
-                <td>' . $row->estimated_time . '</td>
+                <td>' . $row->estimated_time . 'min</td>
                 <td>
                   <div class="dropdown">
                   <button class="btn btn-dark btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -78,10 +92,22 @@ class TrainingController extends Controller
     $data =  Department::all();
     return view('admin.trainings.create', compact('data', 'selected_department_id'));
   }
+
+
+
+
+
   public function show(Request $request, $id)
   {
     $data = Training::findOrFail($id);
     $child_data = TrainingSteps::where('training_id', $id)->orderBy('step_num', 'asc')->get();
+
+    $data = Training::find($id);
+
+    $user_training = new UserTraining();
+
+    $user_training->initialize($data);
+
     return view('admin.trainings.show', compact('data', 'child_data'), ['request' => $request]);
   }
 
